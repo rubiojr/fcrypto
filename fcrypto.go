@@ -27,13 +27,6 @@ var (
 	PasswordPromptOutput = os.Stderr
 )
 
-func CreateFile(path, pwd string) error {
-	_, err := os.Create(path)
-	SaveFile(&bytes.Buffer{}, path, pwd)
-
-	return err
-}
-
 // LoadFile will loads an encrypted  file and decrypts it
 func LoadFile(path, pwd string) (*bytes.Buffer, error) {
 	configKey, _ := genFilePassword(pwd)
@@ -128,7 +121,6 @@ func GetPassword(prompt string) string {
 // ReadPassword for OSes which are supported by golang.org/x/crypto/ssh/terminal
 // See https://github.com/golang/go/issues/14441 - plan9
 //     https://github.com/golang/go/issues/13085 - solaris
-// +build !solaris,!plan9
 // ReadPassword reads a password without echoing it to the terminal.
 func ReadPassword() string {
 	stdin := int(os.Stdin.Fd())
