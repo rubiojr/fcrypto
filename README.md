@@ -1,5 +1,7 @@
 # fcrypto
 
+[![Build Status](https://travis-ci.com/rubiojr/fcrypto.svg?branch=master)](https://travis-ci.com/rubiojr/fcrypto)
+
 File encryption/decryption extracted from Nick Craig-Wood's [rclone source code](https://github.com/ncw/rclone).
 
 > rclone uses nacl secretbox which in turn uses XSalsa20 and Poly1305 to encrypt and authenticate your configuration with secret-key cryptography. The password is SHA-256 hashed, which produces the key for secretbox. The hashed password is not stored.
