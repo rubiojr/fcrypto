@@ -34,3 +34,12 @@ func TestDecrypt(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "foobar", res.String())
 }
+
+func TestDecryptWrongPassword(t *testing.T) {
+	SaveFile(bytes.NewBufferString("foobar"), "testdata/test.txt", "secret")
+	_, err := os.Stat("testdata/test.txt")
+	assert.Nil(t, err)
+
+	_, err = LoadFile("testdata/test.txt", "foo")
+	assert.Equal(t, "Couldn't decrypt configuration, most likely wrong password.", err.Error())
+}

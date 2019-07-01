@@ -69,25 +69,20 @@ func LoadFile(path, pwd string) (*bytes.Buffer, error) {
 	}
 
 	var out []byte
-	for {
-		// Nonce is first 24 bytes of the ciphertext
-		var nonce [24]byte
-		copy(nonce[:], box[:24])
-		var key [32]byte
-		copy(key[:], configKey[:32])
+	// Nonce is first 24 bytes of the ciphertext
+	var nonce [24]byte
+	copy(nonce[:], box[:24])
+	var key [32]byte
+	copy(key[:], configKey[:32])
 
-		// Attempt to decrypt
-		var ok bool
-		out, ok = secretbox.Open(nil, box[24:], &nonce, &key)
-		if ok {
-			break
-		}
-
-		// Retry
-		fmt.Errorf("Couldn't decrypt configuration, most likely wrong password.")
-		configKey = nil
+	// Attempt to decrypt
+	var ok bool
+	out, ok = secretbox.Open(nil, box[24:], &nonce, &key)
+	if ok {
+		return bytes.NewBuffer(out), err
 	}
-	return bytes.NewBuffer(out), err
+
+	return nil, fmt.Errorf("Couldn't decrypt configuration, most likely wrong password.")
 }
 
 // checkPassword normalises and validates the password
